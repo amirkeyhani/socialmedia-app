@@ -32,14 +32,14 @@ def index(request):
         user_feed_list.append(users.user)
         
     for user_feed in user_feed_list:
-        feed_lists = Post.objects.filter(user=user_feed).order_by('-created_at')
+        feed_lists = Post.objects.filter(user=user_feed)
         feed.append(feed_lists)
 
     for users in user_following:
         user_following_list.append(users.user)
 
     for usernames in user_following_list:
-        feed_lists = Post.objects.filter(user=usernames).order_by('-created_at')
+        feed_lists = Post.objects.filter(user=usernames)
         feed.append(feed_lists)
 
     feed_list = list(chain(*feed))
