@@ -4,12 +4,13 @@ from django.urls import reverse
 import uuid
 import os
 
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 
 def validate_file_extension(value):
     import os
-    from django.core.exceptions import ValidationError
     ext = os.path.splitext(value.name)[1]
     valid_extensions = ['.jpg', '.png']
     if not ext.lower() in valid_extensions:
@@ -27,6 +28,12 @@ def get_media_file_path(instance, filename):
     filename = '%s.%s' % (uuid.uuid4(), ext)
     return os.path.join(f'user/{instance.user}/post_medias/', filename)
 
+# def email_exist(value):
+#     if User.objects.filter(email=value).exists():
+#         raise ValidationError('A profile with this Email Address already exists')
+
+phone_regex = RegexValidator(regex=r'^(\+98|0)?9\d{9}$', 
+                             message="Phone number must be entered in the format: '+989999999999'. Up to 17 digits allowed.")
 
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -35,6 +42,8 @@ class Profile(models.Model):
                               validate_file_extension], upload_to=get_profile_file_path, null=True, blank=True)
     bio = models.TextField(max_length=500, null=True, blank=True)
     location = models.CharField(max_length=128, blank=True, null=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    phone_number = models.CharField(max_length=17, validators=[phone_regex], unique=True)
 
     def __str__(self) -> str:
         return self.user.username
