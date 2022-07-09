@@ -193,12 +193,11 @@ def send_otp(number, message):
     auth_token = '125025d64807606380fe24d5e73b2323'
     client = Client(account_sid, auth_token)
 
-    message = client.messages \
-                    .create(
-                        body="Your OTP Authentication Code",
-                        from_='+19706388018',
-                        to='+989036940804'
-                    )
+    message = client.messages.create(
+        body="Your OTP Authentication Code", 
+        from_='+19706388018', 
+        to='+989036940804'
+    )
 
     print(message.sid)
 
