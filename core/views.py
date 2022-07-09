@@ -190,7 +190,7 @@ def settings(request):
 
 def send_otp(number, message):
     account_sid = 'AC820a4ddc19a8b85043ca11fb08448a8c'
-    auth_token = '125025d64807606380fe24d5e73b2323'
+    auth_token = '55ef99b6ceb8e7200986e01a3536e03c'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
